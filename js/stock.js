@@ -1,0 +1,51 @@
+export { productos };
+
+const productos =[
+    {
+        id:0,
+        nombre:"Sakura keyboard",
+        precio: 18.00,
+        img:'../assets/sakura.jpg',
+        cantidad:1
+    },
+
+    {
+        id:1,
+        nombre:"Eva keyboard",
+        precio: 25.00,
+        img:'../assets/evangelion.jpg',
+        cantidad:1
+    },
+    
+    {
+        id:2,
+        nombre:"Pastel keyboard",
+        precio: 40.00,
+        img:'../assets/pastel.jpg',
+        cantidad:1
+    },
+
+    {
+        id:3,
+        nombre:"Melon keyboard",
+        precio: 25.00,
+        img:'../assets/melon.jpg',
+        cantidad:1
+    },
+
+    {
+        id:4,
+        nombre:"Japan keyboard",
+        precio: 18.00,
+        img:'../assets/japan.jpg',
+        cantidad:1
+    },
+
+    {
+        id:5,
+        nombre:"Orange keyboard",
+        precio: 40.00,
+        img:'../assets/orange.jpg',
+        cantidad:1
+    },
+]
