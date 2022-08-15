@@ -70,7 +70,7 @@ productos.forEach(producto => {
     </div>$${producto.precio}</div>
     </div>
     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-    <div class="text-center"><a id=btn${producto.id} class="añadir-a-carrito btn btn-outline-dark mt-auto button">Add to cart</a></div>
+    <div class="text-center"><a id=${producto.id} class="añadir-a-carrito btn btn-outline-dark mt-auto button">Add to cart</a></div>
     </div>
     </div>
     </div>
@@ -78,9 +78,18 @@ productos.forEach(producto => {
     </div>`
 });
 
+const carritoArray = []
+
 productos.forEach(producto => {
-    const botonEvent = document.getElementById(`btn${producto.id}`);
+    const botonEvent = document.getElementById(`${producto.id}`);
+
 botonEvent.addEventListener("click", () => {
-    console.log("test");
-    })
-})
+    agregarCarrito(parseInt(producto.id ));
+    });
+});
+
+const agregarCarrito = (IdProducto) => {
+    const item = productos.find((producto_array) => producto_array.id === IdProducto)
+    carritoArray.push(item)
+    console.log(carritoArray)
+}
