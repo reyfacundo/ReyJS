@@ -72,5 +72,4 @@ const actualizarCarrito = () => {
         </li>
         `
     })
-    console.log(contenedorCarrito)
 }
