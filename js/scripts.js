@@ -1,54 +1,3 @@
-// const botonEvent = document.querySelectorAll(".button");
-
-// botonEvent.forEach(botonCarrito =>{
-//     botonCarrito.addEventListener("click" , añadirCarrito)
-// })
-
-// function añadirCarrito(e){
-//     const producto = e.target
-//     console.log(Boton)
-// }
-
-// function añadirProductos(){
-//     const cards = document.getElementById("cardBody");
-//     productos.forEach((producto)=> {
-//         const productoHtml = document.createElement('div');
-//         productoHtml.classList.add("producto");
-//         productoHtml.innerHTML =
-//             `<div class="container px-4 px-lg-5 mt-5">
-//             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">    
-//             <div class="col mb-5">
-//             <div class="card h-100">
-//             <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-//             <img class="card-img-top" src=${producto.img} alt="..." />
-//             <div class="card-body p-4">
-//             <div class="text-center">
-//             <h5 class="fw-bolder">${producto.nombre}</h5>
-//             <div class="d-flex justify-content-center small text-warning mb-2">
-//             <div class="bi-star-fill"></div>
-//             <div class="bi-star-fill"></div>
-//             <div class="bi-star-fill"></div>
-//             <div class="bi-star-fill"></div>
-//             <div class="bi-star-fill"></div>
-//             </div>${producto.precio}</div>
-//             </div>
-//             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-//             <div class="text-center"><a class="btn btn-outline-dark mt-auto button" href="#">Add to cart</a></div>
-//             </div>
-//             </div>
-//             </div>
-//             </div>
-//             </div>`
-//         cards.appendChild(div)
-        
-//         const botonEvent = document.getElementById(` ${productos.id} `);
-        
-//         botonEvent.addEventListener('click', () => {
-//         })
-//     })
-// };
-
-
 import { productos } from "./stock.js";
 
 productos.forEach(producto => {
@@ -91,5 +40,37 @@ botonEvent.addEventListener("click", () => {
 const agregarCarrito = (IdProducto) => {
     const item = productos.find((producto_array) => producto_array.id === IdProducto)
     carritoArray.push(item)
+    actualizarCarrito()
     console.log(carritoArray)
+}
+
+let buttonId = document.getElementById("button-id")
+
+buttonId.addEventListener("click", () => {
+    location.replace("/carrito.html");
+});
+const actualizarCarrito = () => {
+    carritoArray.forEach((producto_array) => {
+        let contenedorCarrito = document.getElementById("carritoMain")
+        contenedorCarrito.innerHTML += 
+        `
+        <li class="items odd">
+        <div class="infoWrap">
+            <div class="cartSection">
+            <img alt="" class="itemImg" src=${producto_array.img}/>
+            <p class="itemNumber">ID:${producto_array.id}</p>
+            <h3>${producto_array.nombre}1</h3>
+            <p class="stockStatus">In Stock</p>
+            </div>
+            <div class="prodTotal cartSection">
+            <p>$${producto_array.precio}</p>
+            </div>
+            <div class="cartSection removeWrap">
+            <button onClick= "eliminar(${producto_array.id})" class="remove">x</button>
+            </div>
+        </div>
+        </li>
+        `
+    })
+    console.log(contenedorCarrito)
 }

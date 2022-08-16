@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rey</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+    <div class="wrap cf">
+        <h1 class="projTitle">
+        Shopping Cart
+        </h1>
+        <div class="heading cf">
+        <h1>My Cart</h1>
+        <a href="/index.html" class="continue">Continue Shopping</a>
+        </div>
+        <div class="cart">
+        <!--    <ul class="tableHead">
+            <li class="prodHeader">Product</li>
+            <li>Quantity</li>
+            <li>Total</li>
+                <li>Remove</li>
+            </ul>-->
+
+            <ul id="carritoMain" class="cartWrap">
+                <li class="items odd">
+                <div class="infoWrap">
+                    <div class="cartSection">
+                    <img alt="" class="itemImg"/>
+                    <p class="itemNumber">#QUE-007544-002</p>
+                    <h3>Item Name 1</h3>
+                    <p class="stockStatus">In Stock</p>
+                    </div>
+                    <div class="prodTotal cartSection">
+                    <p>$15.00</p>
+                    </div>
+                    <div class="cartSection removeWrap">
+                    <button class="remove">x</button>
+                    </div>
+                </div>
+                </li>
+                <li class="items even">
+        <div class="subtotal cf">
+        <ul>
+            <li class="totalRow">
+            <span class="label">Subtotal</span><span class="value"></span>
+            </li>
+
+            <li class="totalRow">
+            <span class="label">Shipping</span><span class="value"></span>
+            </li>
+            <li class="totalRow final">
+            <span class="label">Total</span><span class="value"></span>
+            </li>
+            <li class="totalRow">
+            <a href="#" class="btn continue">Checkout</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+
+    <script src="./js/scripts.js" type="module"></script>
+    <script src="./js/stock.js" type="module"></script>
+</body>
+</html>
