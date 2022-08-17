@@ -32,17 +32,13 @@ botonEvent.addEventListener("click", () => {
     });
 });
 const agregarCarrito = (IdProducto) => {
-    const item = productos.find((producto_array) => producto_array.id === IdProducto)
-    carritoArray.push(item)
-    console.log(carritoArray)
+    const item = productos.find((producto_array) => producto_array.id === IdProducto);
+    carritoArray.push(item);
+    console.log(carritoArray);
     productosCarrito();
 };
 
 function productosCarrito(){
-    const containerCarrito = document.getElementById("carrito-contenedor");
-    function clearHtml(){
-        containerCarrito.innerHTML = '';
-    }
     clearHtml();
     carritoArray.forEach(producto_array =>{
         const div = document.createElement('div');
@@ -50,8 +46,47 @@ function productosCarrito(){
         div.innerHTML = `<p>${producto_array.nombre}</p>
         <p>Precio: ${producto_array.precio}</p>
         <p id=cantidad${producto_array.cantidad}>Cantidad: ${producto_array.cantidad}</p>
-        <button id=eliminar${producto_array.id} class="btn waves-effect waves-ligth boton-eliminar" value="${producto_array.id}">X</button>
+        <button data-id=eliminar${producto_array.id} class="btn waves-effect waves-ligth boton-eliminar" value="${producto_array.id}">X</button>
         `;
         containerCarrito.appendChild(div);
     })
+    contadorCarrito.innerText = carritoArray.length
+    precioTotal.innerText = carritoArray.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
+    guardarStorage(carritoArray);
 };
+
+const containerCarrito = document.getElementById("carrito-contenedor");
+containerCarrito.addEventListener("click", borrarProducto);
+
+function borrarProducto(e){
+    if (e.target.classList.contains("boton-eliminar")){
+        const deleteID = e.target.getAttribute('data-id')
+        carritoArray.filter(product => product.id !== deleteID)
+    }
+    productosCarrito();
+}
+
+function clearHtml(){
+    containerCarrito.innerHTML = '';
+}
+
+
+const eliminar = (IdProducto) => {
+    const carritoStorage = obtenerCarritoStorage();
+    const carritoActualizado = carritoStorage.filter ( producto => producto.id != IdProducto);
+    actualizarCarrito(carritoActualizado);
+
+};
+
+const guardarStorage = (carritoArray) => {
+    localStorage.setItem("carrito", JSON.stringify(carritoArray))
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('carrito')){
+            carrito=JSON.parse(localStorage.getItem('carrito'));
+            actualizarCarrito();
+        }
+    });
+}
+const precioTotal= document.getElementById("precioTotal");
+const contadorCarrito = document.getElementById("contador-carrito");
