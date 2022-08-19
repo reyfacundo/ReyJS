@@ -32,9 +32,18 @@ botonEvent.addEventListener("click", () => {
     });
 });
 const agregarCarrito = (IdProducto) => {
-    const item = productos.find((producto_array) => producto_array.id === IdProducto);
-    carritoArray.push(item);
+    const item = carritoArray.find((prod) => prod.id === IdProducto);
     console.log(carritoArray);
+    if(item){
+        const prod = carritoArray.map(prod => {
+            if (prod.id === IdProducto){
+                prod.cantidad++
+            }
+        });
+    }else{
+        const itemStack = productos.find((prod)=> prod.id === IdProducto)
+        carritoArray.push(itemStack);
+    };
     productosCarrito();
 };
 
@@ -46,37 +55,63 @@ function productosCarrito(){
         div.innerHTML = `<p>${producto_array.nombre}</p>
         <p>Precio: ${producto_array.precio}</p>
         <p id=cantidad${producto_array.cantidad}>Cantidad: ${producto_array.cantidad}</p>
-        <button data-id=eliminar${producto_array.id} class="btn waves-effect waves-ligth boton-eliminar" value="${producto_array.id}">X</button>
+        <button onclick="eliminar(${producto_array.id}" data-id="eliminar(${producto_array.id})" class="btn waves-effect waves-ligth boton-eliminar" value="${producto_array.id}">X</button>
         `;
         containerCarrito.appendChild(div);
+        div.querySelector(".boton-eliminar").addEventListener("click", removerCarrito)
     })
     contadorCarrito.innerText = carritoArray.length
     precioTotal.innerText = carritoArray.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
     guardarStorage(carritoArray);
+    
 };
 
 const containerCarrito = document.getElementById("carrito-contenedor");
-containerCarrito.addEventListener("click", borrarProducto);
+// function borrarProducto(e){
+//     if (e.target.classList.contains('boton-eliminar')) {
+//         const deleteID = e.target.getAttribute('data-id');
+//         carritoArray.forEach(valor => {
+//             if (valor.id == deleteID) {
+//                 let CorrecionPrecio = valor.precio * valor.cantidad;
+//                 precioTotal = precioTotal - CorrecionPrecio;
+//             }
+//         })
+//         carritoArray.filter(product => product.id !== deleteID);
+//         itemEliminar--;
+//     };
+//     productosCarrito();
+// };
 
-function borrarProducto(e){
-    if (e.target.classList.contains("boton-eliminar")){
-        const deleteID = e.target.getAttribute('data-id')
-        carritoArray.filter(product => product.id !== deleteID)
-    }
-    productosCarrito();
+const eliminar = (prodId) => {
+    const pro = carritoArray.find((prod) => producto_array.id === prodId);
+    const indiceDe = carritoArray.indexOf(pro);
+    carritoArray.splice(indiceDe, 1);
+    productosCarrito()
+}
+
+// export const eliminarProductoCarrito = (productoId) => {
+//     const carritoStorage = guardarStorage();
+//     const carritoActualizado = guardarStorage.filter( producto => producto.id != productoId);
+
+//     actualizarCarrito(carritoActualizado);
+//     actualizarProductosCarrito(carritoActualizado);
+// }
+
+
+function removerCarrito(event){
+    const botonClick = event.target;
+    botonClick.closest(".productoEnCarrito").remove();
 }
 
 function clearHtml(){
     containerCarrito.innerHTML = '';
-}
-
-
-const eliminar = (IdProducto) => {
-    const carritoStorage = obtenerCarritoStorage();
-    const carritoActualizado = carritoStorage.filter ( producto => producto.id != IdProducto);
-    actualizarCarrito(carritoActualizado);
-
 };
+// const eliminar = (IdProducto) => {
+//     const carritoStorage = obtenerCarritoStorage();
+//     const carritoActualizado = carritoStorage.filter ( producto => producto.id != IdProducto);
+//     actualizarCarrito(carritoActualizado);
+// };
+
 
 const guardarStorage = (carritoArray) => {
     localStorage.setItem("carrito", JSON.stringify(carritoArray))
@@ -85,8 +120,15 @@ const guardarStorage = (carritoArray) => {
         if (localStorage.getItem('carrito')){
             carrito=JSON.parse(localStorage.getItem('carrito'));
             actualizarCarrito();
-        }
+        };
     });
-}
+};
 const precioTotal= document.getElementById("precioTotal");
 const contadorCarrito = document.getElementById("contador-carrito");
+
+const botonPago = document.getElementById("botonRedirect");
+botonPago.addEventListener("click", ()=>{
+    if(carritoArray != ""){
+        location.href="https://www.mercadopago.com.ar/"
+    };
+});

@@ -7,6 +7,20 @@ header {
   padding: 20px 10%;
 }
 
+.pago{
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  border: none;
+  cursor:pointer;
+}
+.boton-pago{
+  display: flex;
+  justify-content: end;
+}
 #cesta-carrito {
   border: none;
   font-size: 30px;
