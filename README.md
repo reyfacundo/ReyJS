@@ -8,4 +8,4 @@ Bugs:
 
 * "missing ) after argument list (at (index):1:10)" Luego de eliminar un producto del carrito. No afecta en la funcionalidad pero no sabría parchearlo.
 
-*
+* Imagenes no funcionando por algún motivo en github pages. Están bien linkeadas y se ven perfectamente mediante LIVE SERVER.
