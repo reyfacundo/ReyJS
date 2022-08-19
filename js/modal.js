@@ -1,6 +1,3 @@
-// import { eliminarProductoCarrito } from "./scripts.js";
-
-
 const modalContenedor = document.querySelector('.modal-contenedor')
 const abrirCarrito = document.getElementById('cesta-carrito');
 const cerrarCarrito = document.getElementById('btn-cerrar-carrito');
@@ -18,6 +15,5 @@ modalContenedor.addEventListener('click', () => {
 modalCarrito.addEventListener("click", (e) => {
     e.stopPropagation();
     if (e.target.classList.contains("boton-eliminar")) {
-        // eliminarProductoCarrito(e.target.value)
     }
 })
