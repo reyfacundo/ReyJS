@@ -1,5 +1,16 @@
+// Importo el array de objetos para luego inyectar.
 import { productos } from "./stock.js";
 
+// Array vacío donde se almacenarán los objetos que vayan al carrito.
+const carritoArray = []
+
+const containerCarrito = document.getElementById("carrito-contenedor");
+const precioTotal= document.getElementById("precioTotal");
+const contadorCarrito = document.getElementById("contador-carrito");
+const botonPago = document.getElementById("botonRedirect");
+
+
+// Creador de cards para productos en BODY. Inyecto HTML mediante la modificación del DOM. Ahorra código y automatíza el proceso.
 productos.forEach(producto => {
     let contenedor = document.getElementById("cardBody")
     contenedor.innerHTML += 
@@ -22,7 +33,6 @@ productos.forEach(producto => {
     </div>`
 });
 
-const carritoArray = []
 
 productos.forEach(producto => {
     const botonEvent = document.getElementById(`${producto.id}`);
@@ -31,22 +41,9 @@ botonEvent.addEventListener("click", () => {
     agregarCarrito(parseInt(producto.id ));
     });
 });
-const agregarCarrito = (IdProducto) => {
-    const item = carritoArray.find((prod) => prod.id === IdProducto);
-    console.log(carritoArray);
-    if(item){
-        const prod = carritoArray.map(prod => {
-            if (prod.id === IdProducto){
-                prod.cantidad++
-            }
-        });
-    }else{
-        const itemStack = productos.find((prod)=> prod.id === IdProducto)
-        carritoArray.push(itemStack);
-    };
-    productosCarrito();
-};
 
+
+// Creador de cards para productos del carrito
 function productosCarrito(){
     clearHtml();
     carritoArray.forEach(producto_array =>{
@@ -58,64 +55,60 @@ function productosCarrito(){
         <button onclick="eliminar(${producto_array.id}" data-id="eliminar(${producto_array.id})" class="btn waves-effect waves-ligth boton-eliminar" value="${producto_array.id}">X</button>
         `;
         containerCarrito.appendChild(div);
-        div.querySelector(".boton-eliminar").addEventListener("click", removerCarrito)
+        div.querySelector(".boton-eliminar").addEventListener("click", eliminar);
     })
     contadorCarrito.innerText = carritoArray.length
-    precioTotal.innerText = carritoArray.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
+    precioTotal.innerText = carritoArray.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0);
     guardarStorage(carritoArray);
-    
 };
-
-const containerCarrito = document.getElementById("carrito-contenedor");
-// function borrarProducto(e){
-//     if (e.target.classList.contains('boton-eliminar')) {
-//         const deleteID = e.target.getAttribute('data-id');
-//         carritoArray.forEach(valor => {
-//             if (valor.id == deleteID) {
-//                 let CorrecionPrecio = valor.precio * valor.cantidad;
-//                 precioTotal = precioTotal - CorrecionPrecio;
-//             }
-//         })
-//         carritoArray.filter(product => product.id !== deleteID);
-//         itemEliminar--;
-//     };
-//     productosCarrito();
-// };
-
-const eliminar = (prodId) => {
-    const pro = carritoArray.find((prod) => producto_array.id === prodId);
-    const indiceDe = carritoArray.indexOf(pro);
-    carritoArray.splice(indiceDe, 1);
-    productosCarrito()
-}
-
-// export const eliminarProductoCarrito = (productoId) => {
-//     const carritoStorage = guardarStorage();
-//     const carritoActualizado = guardarStorage.filter( producto => producto.id != productoId);
-
-//     actualizarCarrito(carritoActualizado);
-//     actualizarProductosCarrito(carritoActualizado);
-// }
-
-
-function removerCarrito(event){
-    const botonClick = event.target;
-    botonClick.closest(".productoEnCarrito").remove();
-}
-
+// Pequeña función para evitar que las cards se añadan de a pares.
 function clearHtml(){
     containerCarrito.innerHTML = '';
 };
-// const eliminar = (IdProducto) => {
-//     const carritoStorage = obtenerCarritoStorage();
-//     const carritoActualizado = carritoStorage.filter ( producto => producto.id != IdProducto);
-//     actualizarCarrito(carritoActualizado);
-// };
 
 
+//  Añade productos al nuevo array y , si estos se encuentran repetidos , aumenta en 1 la cantidad en vez de repetír la card del producto 
+const agregarCarrito = (IdProducto) => {
+    const item = carritoArray.find((prod) => prod.id === IdProducto);
+    console.log(carritoArray);
+    if(item){
+        const prod = carritoArray.map(prod => {
+            if (prod.id === IdProducto){
+                prod.cantidad++
+            }
+        });
+    }else{
+        const itemStack = productos.find((prod)=> prod.id === IdProducto);
+        carritoArray.push(itemStack);
+    };
+    productosCarrito();
+};
+
+// Elimina productos al realizar una estricta comparación de los ID
+const eliminar = (prodId) => {
+    const item = carritoArray.find((prod) => prod.id === prodId);
+    const indice = carritoArray.indexOf(item);
+    carritoArray.splice(indice, 1);
+    productosCarrito(); 
+};
+
+// Condicional. Si el carrito NO se encuentra vacío, al presionar el botón de pago, el usuario será redirigido a mercadopago para proceder con la compra. En caso contrario no será redirigido y una alerta ( toastify ) se ejecutará.
+botonPago.addEventListener("click", ()=>{
+    if(carritoArray != ""){
+        location.href="https://www.mercadopago.com.ar/"
+    }else{
+        Toastify({ 
+            text: '¡El carrito se encuentra vacío!', 
+            duration: 800, 
+            gravity: 'top', 
+            position: 'center' 
+        }).showToast(); 
+    }
+});
+
+// Local Storage. Guarda los datos, incluso al cerrar sesión o el navegador. 
 const guardarStorage = (carritoArray) => {
     localStorage.setItem("carrito", JSON.stringify(carritoArray))
-
     document.addEventListener('DOMContentLoaded', () => {
         if (localStorage.getItem('carrito')){
             carrito=JSON.parse(localStorage.getItem('carrito'));
@@ -123,12 +116,3 @@ const guardarStorage = (carritoArray) => {
         };
     });
 };
-const precioTotal= document.getElementById("precioTotal");
-const contadorCarrito = document.getElementById("contador-carrito");
-
-const botonPago = document.getElementById("botonRedirect");
-botonPago.addEventListener("click", ()=>{
-    if(carritoArray != ""){
-        location.href="https://www.mercadopago.com.ar/"
-    };
-});
