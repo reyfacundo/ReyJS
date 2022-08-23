@@ -8,7 +8,13 @@ const containerCarrito = document.getElementById("carrito-contenedor");
 const precioTotal= document.getElementById("precioTotal");
 const contadorCarrito = document.getElementById("contador-carrito");
 const botonPago = document.getElementById("botonRedirect");
+const eventVaciar = document.getElementById('vaciar');
 
+fetch("./stock.JSON")
+    .then((response) => response.json() )
+    .then( (data) => {
+        console.log(data);
+    });
 
 // Creador de cards para productos en BODY. Inyecto HTML mediante la modificación del DOM. Ahorra código y automatíza el proceso.
 productos.forEach(producto => {
@@ -92,6 +98,13 @@ const eliminar = (prodId) => {
     productosCarrito(); 
 };
 
+// Vacía la totalidad del carrito
+const vaciar = () => {
+    carritoArray.splice(0);
+    productosCarrito()
+}
+eventVaciar.addEventListener("click", vaciar);
+
 // Condicional. Si el carrito NO se encuentra vacío, al presionar el botón de pago, el usuario será redirigido a mercadopago para proceder con la compra. En caso contrario no será redirigido y una alerta ( toastify ) se ejecutará.
 botonPago.addEventListener("click", ()=>{
     if(carritoArray != ""){
@@ -116,3 +129,4 @@ const guardarStorage = (carritoArray) => {
         };
     });
 };
+
